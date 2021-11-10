@@ -78,7 +78,7 @@ class Geocoder(Service):
 
         return resp
 
-    def reverse(self, lon, lat, types=None, limit=None):
+    def reverse(self, lon, lat, types=None, limit=None, languages=None):
         """Returns a Requests response object that contains a GeoJSON
         collection of places near the given longitude and latitude.
 
@@ -102,6 +102,9 @@ class Geocoder(Service):
                     'Specify a single type when using limit with reverse geocoding')
             params.update(limit='{0}'.format(limit))
 
+        if languages:
+            params.update(language=','.join(languages))
+            
         resp = self.session.get(uri, params=params)
         self.handle_http_error(resp)
 
